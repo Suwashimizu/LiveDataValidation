@@ -2,7 +2,6 @@ package org.suwashizmu.livedatasample
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -31,18 +30,24 @@ class MainViewModel : ViewModel() {
         it.value = emptyList()
     }
     val prefectures: LiveData<List<String>> = _prefectures
-    val isLoading: LiveData<Boolean> = Transformations.map(prefectures) {
-        it.isEmpty()
+
+    //Spinnerの選択位置を保持する
+    val spinnerPosition = MutableLiveData<Int>()
+
+    private val _isLoading = MutableLiveData<Boolean>().also {
+        it.value = true
     }
+    val isLoading: LiveData<Boolean> = _isLoading
 
     private val repository = PrefectureRepository()
 
     fun loadData() {
 
-        if (isLoading.value == true) return
+        if (isLoading.value == false) return
 
         GlobalScope.launch(Dispatchers.Main) {
             _prefectures.value = repository.fetchPrefectures()
+            _isLoading.value = false
         }
     }
 }

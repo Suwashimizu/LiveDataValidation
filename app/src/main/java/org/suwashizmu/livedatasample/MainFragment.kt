@@ -33,9 +33,8 @@ class MainFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = mainViewModel
 
-        mainViewModel.loadData()
-
         setupObserver()
+        mainViewModel.loadData()
     }
 
     private fun setupObserver() {
@@ -44,6 +43,11 @@ class MainFragment : Fragment() {
                 ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, it).apply {
                     setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 }
+        })
+
+        //spinnerの位置を復元,これを入れないと画面回転時に0になる
+        mainViewModel.spinnerPosition.observe(viewLifecycleOwner, Observer {
+            binding.spinner.setSelection(it)
         })
     }
 }

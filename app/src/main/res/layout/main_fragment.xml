@@ -64,6 +64,8 @@
                 app:layout_constraintStart_toStartOf="@id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/lastNameInputLayout"
 
+                android:selectedItemPosition="@={viewModel.spinnerPosition}"
+
                 android:layout_marginTop="16dp"/>
 
         <com.google.android.material.button.MaterialButton
