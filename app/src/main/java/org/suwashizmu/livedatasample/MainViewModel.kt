@@ -26,10 +26,7 @@ class MainViewModel : ViewModel() {
     private val _canSubmit = MediatorLiveData<Boolean>().apply {
 
         val observer = Observer<Any> {
-            val firstName = firstName.value ?: ""
-            val lastName = lastName.value ?: ""
-            val spinnerPosition = spinnerPosition.value ?: -1
-            this.value = firstName.isNotEmpty() && lastName.isNotEmpty() && spinnerPosition != -1
+            this.value = validate()
         }
 
         addSource(firstName, observer)
@@ -60,5 +57,13 @@ class MainViewModel : ViewModel() {
             _prefectures.value = repository.fetchPrefectures()
             _isLoading.value = false
         }
+    }
+
+    private fun validate(): Boolean {
+        val firstName = firstName.value ?: ""
+        val lastName = lastName.value ?: ""
+        val spinnerPosition = spinnerPosition.value ?: -1
+
+        return firstName.isNotEmpty() && lastName.isNotEmpty() && spinnerPosition != -1
     }
 }
