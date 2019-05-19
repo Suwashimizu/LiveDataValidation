@@ -29,6 +29,7 @@
             <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/firstNameInput"
                     android:text="@={viewModel.firstName}"
+                    android:inputType="textPersonName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -49,6 +50,7 @@
 
             <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/lastNameInput"
+                    android:inputType="textPersonName"
                     android:text="@={viewModel.lastName}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>

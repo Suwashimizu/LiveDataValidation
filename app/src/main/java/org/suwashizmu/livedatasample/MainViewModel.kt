@@ -38,6 +38,9 @@ class MainViewModel : ViewModel() {
     private val repository = PrefectureRepository()
 
     fun loadData() {
+
+        if (isLoading.value == true) return
+
         GlobalScope.launch(Dispatchers.Main) {
             _prefectures.value = repository.fetchPrefectures()
         }
