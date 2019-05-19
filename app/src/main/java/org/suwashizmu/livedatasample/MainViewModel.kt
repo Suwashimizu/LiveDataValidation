@@ -26,9 +26,11 @@ class MainViewModel : ViewModel() {
     private val _canSubmit = MediatorLiveData<Boolean>().apply {
 
         val observer = Observer<Any> {
+            //validateの結果を反映,trueなら送信ボタンが押せる
             this.value = validate()
         }
 
+        //以下の値に変更があった場合にobserverが呼ばれる
         addSource(firstName, observer)
         addSource(lastName, observer)
         addSource(spinnerPosition, observer)
