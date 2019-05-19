@@ -1,8 +1,6 @@
 package org.suwashizmu.livedatasample
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -22,7 +20,22 @@ class MainViewModel : ViewModel() {
     val firstName = MutableLiveData<String>()
     val lastName = MutableLiveData<String>()
 
-    private val _canSubmit = MutableLiveData<Boolean>()
+    //Spinnerの選択位置を保持する
+    val spinnerPosition = MutableLiveData<Int>()
+
+    private val _canSubmit = MediatorLiveData<Boolean>().apply {
+
+        val observer = Observer<Any> {
+            val firstName = firstName.value ?: ""
+            val lastName = lastName.value ?: ""
+            val spinnerPosition = spinnerPosition.value ?: -1
+            this.value = firstName.isNotEmpty() && lastName.isNotEmpty() && spinnerPosition != -1
+        }
+
+        addSource(firstName, observer)
+        addSource(lastName, observer)
+        addSource(spinnerPosition, observer)
+    }
     val canSubmit: LiveData<Boolean> = _canSubmit
 
     //nullだとTransformationsが反応されないため空のListを入れる
@@ -31,8 +44,6 @@ class MainViewModel : ViewModel() {
     }
     val prefectures: LiveData<List<String>> = _prefectures
 
-    //Spinnerの選択位置を保持する
-    val spinnerPosition = MutableLiveData<Int>()
 
     private val _isLoading = MutableLiveData<Boolean>().also {
         it.value = true
