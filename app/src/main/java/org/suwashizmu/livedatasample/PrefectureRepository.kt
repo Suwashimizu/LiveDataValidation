@@ -58,7 +58,7 @@ class PrefectureRepository {
     )
 
     suspend fun fetchPrefectures(): List<String> {
-        delay(2000)
+        delay(5000)
         return prefectures
     }
 }
