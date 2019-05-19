@@ -4,6 +4,7 @@
 
     <data>
         <variable name="viewModel" type="org.suwashizmu.livedatasample.MainViewModel"/>
+        <import type="android.view.View"/>
     </data>
 
 
@@ -27,6 +28,7 @@
 
             <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/firstNameInput"
+                    android:text="@={viewModel.firstName}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -47,6 +49,7 @@
 
             <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/lastNameInput"
+                    android:text="@={viewModel.lastName}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -59,8 +62,7 @@
                 app:layout_constraintStart_toStartOf="@id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/lastNameInputLayout"
 
-                android:layout_marginTop="16dp"
-        />
+                android:layout_marginTop="16dp"/>
 
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/submitButton"
@@ -69,6 +71,7 @@
 
                 app:layout_constraintTop_toBottomOf="@+id/spinner"
 
+                android:enabled="@{viewModel.canSubmit}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="16dp"
@@ -76,12 +79,32 @@
                 android:layout_height="wrap_content"
                 android:text="submit"/>
 
+        <ProgressBar
+                android:id="@+id/progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:visibility="@{viewModel.isLoading() ? View.VISIBLE : View.GONE}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+        />
+
         <androidx.constraintlayout.widget.Guideline
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/guideline"
                 app:layout_constraintGuide_begin="16dp"
                 android:orientation="vertical"/>
+
+        <!--データ読み込みが終わったら表示するグループ-->
+        <androidx.constraintlayout.widget.Group
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/formGroup"
+                android:visibility="@{viewModel.isLoading() ? View.GONE : View.VISIBLE}"
+                app:constraint_referenced_ids="spinner,submitButton,firstNameInputLayout,lastNameInputLayout"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

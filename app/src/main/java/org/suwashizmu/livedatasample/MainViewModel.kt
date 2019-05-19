@@ -19,7 +19,9 @@ class MainViewModel : ViewModel() {
     val firstName = MutableLiveData<String>()
     val lastName = MutableLiveData<String>()
 
-    private val _isLoading = MutableLiveData<Boolean>()
+    private val _isLoading = MutableLiveData<Boolean>().also {
+        it.value = true
+    }
     val isLoading: LiveData<Boolean> = _isLoading
 
     private val _canSubmit = MutableLiveData<Boolean>()

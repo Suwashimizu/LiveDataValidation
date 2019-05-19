@@ -26,8 +26,9 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        mainViewModel = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
 
-
+        binding.lifecycleOwner = this
+        binding.viewModel = mainViewModel
     }
 }
