@@ -30,5 +30,7 @@ class MainFragment : Fragment() {
 
         binding.lifecycleOwner = this
         binding.viewModel = mainViewModel
+
+        mainViewModel.loadData()
     }
 }

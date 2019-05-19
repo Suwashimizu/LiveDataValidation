@@ -3,6 +3,9 @@ package org.suwashizmu.livedatasample
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 /**
  * Created by KEKE on 2019/05/19.
@@ -30,4 +33,11 @@ class MainViewModel : ViewModel() {
     private val _prefectures = MutableLiveData<List<String>>()
     val prefectures: LiveData<List<String>> = _prefectures
 
+    private val repository = PrefectureRepository()
+
+    fun loadData() {
+        GlobalScope.launch(Dispatchers.Main) {
+            _prefectures.value = repository.fetchPrefectures()
+        }
+    }
 }
